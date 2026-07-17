@@ -4,6 +4,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import authRoutes from "./modules/auth/auth.routes";
+import analyticsRoutes from "./modules/analytics/analytics.routes";
 
 import { env } from "./config/env";
 
@@ -32,6 +33,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/analytics", analyticsRoutes);
 
 // Error Handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
