@@ -1,13 +1,14 @@
-import { Activity } from "lucide-react";
 import { Link } from "react-router-dom";
+import logoText from "../../../assets/logo-text.jpg";
 
 export default function Logo() {
   return (
-    <Link to="/" className="flex items-center gap-2 mb-8">
-      <div className="h-10 w-10 rounded-xl bg-foreground flex items-center justify-center">
-        <Activity className="h-6 w-6 text-background" />
-      </div>
-      <span className="font-bold text-2xl tracking-tight text-foreground">CodePulse</span>
+    <Link to="/" className="flex items-center justify-center mb-2">
+      <img 
+        src={logoText} 
+        alt="CodePulse" 
+        className="h-32 w-auto object-contain invert mix-blend-screen" 
+      />
     </Link>
   );
 }

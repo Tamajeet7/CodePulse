@@ -33,11 +33,11 @@ export default function AuthFooter({
           to={to}
           className="
             font-semibold
-            text-purple-400
+            text-white
             transition-all
             duration-300
-            hover:text-purple-300
-            hover:drop-shadow-[0_0_12px_rgba(168,85,247,0.8)]
+            hover:text-neutral-300
+            hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.8)]
           "
         >
           {linkLabel}

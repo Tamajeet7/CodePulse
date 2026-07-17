@@ -11,7 +11,7 @@ export default function AuthLayout({
   children,
 }: AuthLayoutProps) {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-[#030005] text-white">
+    <main className="relative min-h-screen overflow-hidden bg-background text-foreground">
       <AnimatedBackground />
 
       <div className="relative z-10 flex min-h-screen items-center justify-center px-6 py-8">

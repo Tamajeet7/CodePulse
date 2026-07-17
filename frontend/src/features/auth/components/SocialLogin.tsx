@@ -40,14 +40,14 @@ export default function SocialLogin({
         backdrop-blur-xl
         transition-all
         duration-300
-        hover:border-purple-500/40
+        hover:border-neutral-500/40
         hover:bg-white/[0.06]
-        hover:shadow-[0_0_30px_rgba(168,85,247,0.18)]
+        hover:shadow-[0_0_30px_rgba(255,255,255,0.08)]
         disabled:cursor-not-allowed
         disabled:opacity-60
       "
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-purple-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-neutral-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
       <svg
         viewBox="0 0 48 48"

@@ -28,7 +28,7 @@ export default function AuthHeader({
     >
       <Logo />
 
-      <div className="mt-10 flex flex-col items-center">
+      <div className="mt-4 flex flex-col items-center">
         <h1 className="text-center text-[2rem] font-bold tracking-tight text-white">
           {title}
         </h1>

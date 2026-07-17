@@ -96,13 +96,12 @@ export default function Register() {
           overflow-hidden
           rounded-[36px]
           border
-          border-white/10
-          bg-white/[0.05]
-          backdrop-blur-3xl
+          border-neutral-800
+          bg-black
           shadow-[0_35px_120px_rgba(0,0,0,0.45)]
         "
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.06] via-transparent to-neutral-500/[0.05]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-900/[0.2] via-transparent to-neutral-900/[0.4]" />
 
         <div className="relative px-10 py-12">
           <AuthHeader

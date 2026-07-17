@@ -36,14 +36,14 @@ const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
             bg-white/[0.04]
             transition-all
             duration-300
-            hover:border-purple-500/40
-            focus-within:border-purple-500/70
+            hover:border-neutral-500/40
+            focus-within:border-neutral-500/70
             focus-within:bg-white/[0.06]
-            focus-within:shadow-[0_0_0_4px_rgba(168,85,247,0.10)]
+            focus-within:shadow-[0_0_0_4px_rgba(255,255,255,0.05)]
           "
         >
           {icon && (
-            <div className="pointer-events-none flex h-full w-14 items-center justify-center text-slate-500 transition-colors duration-300 group-focus-within:text-purple-400">
+            <div className="pointer-events-none flex h-full w-14 items-center justify-center text-slate-500 transition-colors duration-300 group-focus-within:text-white">
               {icon}
             </div>
           )}
@@ -64,7 +64,7 @@ const AuthInput = forwardRef<HTMLInputElement, AuthInputProps>(
             {...props}
           />
 
-          <div className="pointer-events-none absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-purple-500/80 to-transparent opacity-0 transition-opacity duration-300 group-focus-within:opacity-100" />
+          <div className="pointer-events-none absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-neutral-500/80 to-transparent opacity-0 transition-opacity duration-300 group-focus-within:opacity-100" />
         </div>
 
         {error && (

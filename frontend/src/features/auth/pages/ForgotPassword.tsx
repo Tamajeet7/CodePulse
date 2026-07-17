@@ -67,14 +67,11 @@ export default function ForgotPassword() {
           max-w-[460px]
           overflow-hidden
           rounded-[36px]
-          border
-          border-white/10
-          bg-white/[0.05]
-          backdrop-blur-3xl
-          shadow-[0_30px_100px_rgba(0,0,0,0.45)]
+          bg-black
+          shadow-[0_35px_120px_rgba(0,0,0,0.45)]
         "
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] via-transparent to-purple-500/[0.05]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-900/[0.2] via-transparent to-neutral-900/[0.4]" />
 
         <div
           className="

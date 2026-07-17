@@ -26,7 +26,7 @@ export default function LoadingButton({
           ? undefined
           : {
               scale: 1.02,
-              boxShadow: "0 0 35px rgba(168,85,247,0.45)",
+              boxShadow: "0 0 35px rgba(255,255,255,0.15)",
             }
       }
       whileTap={
@@ -41,10 +41,10 @@ export default function LoadingButton({
       }}
       className={[
         "group relative flex h-14 w-full items-center justify-center overflow-hidden rounded-full",
-        "bg-gradient-to-r from-purple-600 via-purple-500 to-fuchsia-500",
+        "bg-gradient-to-r from-neutral-800 to-neutral-700",
         "px-6 font-semibold text-white",
         "transition-all duration-300",
-        "hover:shadow-[0_0_35px_rgba(168,85,247,0.45)]",
+        "hover:shadow-[0_0_35px_rgba(255,255,255,0.15)] border border-neutral-600",
         "disabled:cursor-not-allowed disabled:opacity-60",
         className,
       ]
