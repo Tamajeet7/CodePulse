@@ -16,7 +16,22 @@ app.use(helmet());
 // CORS
 app.use(
   cors({
-    origin: env.CLIENT_URL || "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      
+      // Allow Vercel preview domains and localhost automatically
+      if (origin.includes("vercel.app") || origin.includes("localhost")) {
+        return callback(null, true);
+      }
+      
+      // Allow exact match with CLIENT_URL (safely removing any trailing slashes the user might have accidentally added)
+      const allowedUrl = (env.CLIENT_URL || "").replace(/\/$/, "");
+      if (allowedUrl && origin === allowedUrl) {
+        return callback(null, true);
+      }
+      
+      callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   })
 );
