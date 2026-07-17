@@ -11,7 +11,10 @@ import {
   Search, 
   Bell, 
   Plus,
-  GitBranch
+  GitBranch,
+  ChevronLeft,
+  ChevronRight,
+  Menu
 } from "lucide-react";
 import { useState } from "react";
 
@@ -19,6 +22,7 @@ export default function Dashboard() {
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   function handleLogout() {
     logout();
@@ -48,14 +52,44 @@ export default function Dashboard() {
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-[#0A0A0A] text-white font-sans">
       {/* Sidebar */}
-      <aside className="w-64 border-r border-neutral-900 bg-black flex flex-col justify-between">
+      <aside 
+        className={`border-r border-neutral-900 bg-black flex flex-col justify-between transition-all duration-300 ${
+          isCollapsed ? "w-20" : "w-64"
+        }`}
+      >
         <div>
           {/* Branded Logo Container */}
-          <div className="h-20 flex items-center px-6 border-b border-neutral-900">
-            <span className="text-xl font-bold tracking-wider bg-gradient-to-r from-white via-neutral-300 to-neutral-500 bg-clip-text text-transparent">
-              CODEPULSE
-            </span>
+          <div className="h-20 flex items-center justify-between px-6 border-b border-neutral-900">
+            {!isCollapsed && (
+              <span className="text-xl font-bold tracking-wider bg-gradient-to-r from-white via-neutral-300 to-neutral-500 bg-clip-text text-transparent">
+                CODEPULSE
+              </span>
+            )}
+            {isCollapsed && (
+              <span className="text-lg font-bold tracking-wider text-white mx-auto">
+                CP
+              </span>
+            )}
+            {!isCollapsed && (
+              <button 
+                onClick={() => setIsCollapsed(true)}
+                className="p-1.5 rounded-lg hover:bg-neutral-900 text-neutral-400 hover:text-white transition-colors"
+              >
+                <ChevronLeft size={18} />
+              </button>
+            )}
           </div>
+
+          {isCollapsed && (
+            <div className="flex justify-center py-4 border-b border-neutral-900/60">
+              <button 
+                onClick={() => setIsCollapsed(false)}
+                className="p-1.5 rounded-lg hover:bg-neutral-900 text-neutral-400 hover:text-white transition-colors"
+              >
+                <Menu size={18} />
+              </button>
+            </div>
+          )}
 
           {/* Navigation Links */}
           <nav className="mt-6 px-4 space-y-2">
@@ -71,14 +105,17 @@ export default function Dashboard() {
                 <button
                   key={item.id}
                   onClick={() => setActiveTab(item.id)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  title={isCollapsed ? item.label : undefined}
+                  className={`w-full flex items-center rounded-xl text-sm font-medium transition-all duration-200 ${
+                    isCollapsed ? "justify-center p-3" : "gap-3 px-4 py-3"
+                  } ${
                     activeTab === item.id
                       ? "bg-white text-black font-semibold shadow-lg"
                       : "text-neutral-400 hover:text-white hover:bg-neutral-900"
                   }`}
                 >
                   <Icon size={18} />
-                  {item.label}
+                  {!isCollapsed && <span>{item.label}</span>}
                 </button>
               );
             })}
@@ -87,22 +124,27 @@ export default function Dashboard() {
 
         {/* User Footer info & Logout */}
         <div className="p-4 border-t border-neutral-900 space-y-4">
-          <div className="flex items-center gap-3 px-2">
-            <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center font-bold text-neutral-300 border border-neutral-700">
+          <div className={`flex items-center gap-3 ${isCollapsed ? "justify-center px-0" : "px-2"}`}>
+            <div className="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center font-bold text-neutral-300 border border-neutral-700 shrink-0">
               {user?.name?.[0]?.toUpperCase() || "U"}
             </div>
-            <div className="overflow-hidden">
-              <p className="text-sm font-medium truncate text-neutral-200">{user?.name || "Developer"}</p>
-              <p className="text-xs text-neutral-500 truncate">{user?.email || "developer@codepulse.io"}</p>
-            </div>
+            {!isCollapsed && (
+              <div className="overflow-hidden">
+                <p className="text-sm font-medium truncate text-neutral-200">{user?.name || "Developer"}</p>
+                <p className="text-xs text-neutral-500 truncate">{user?.email || "developer@codepulse.io"}</p>
+              </div>
+            )}
           </div>
           
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 text-neutral-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl text-sm font-medium transition-all duration-200"
+            title={isCollapsed ? "Sign Out" : undefined}
+            className={`w-full flex items-center text-neutral-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl text-sm font-medium transition-all duration-200 ${
+              isCollapsed ? "justify-center p-3" : "gap-3 px-4 py-3"
+            }`}
           >
             <LogOut size={18} />
-            Sign Out
+            {!isCollapsed && <span>Sign Out</span>}
           </button>
         </div>
       </aside>
@@ -110,23 +152,23 @@ export default function Dashboard() {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col overflow-y-auto">
         {/* Header */}
-        <header className="h-20 border-b border-neutral-900 px-8 flex items-center justify-between bg-black/50 backdrop-blur-md sticky top-0 z-10">
-          <div className="relative w-80">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" size={16} />
+        <header className="h-20 border-b border-neutral-900 px-10 flex items-center justify-between bg-black/50 backdrop-blur-md sticky top-0 z-10">
+          <div className="relative w-96">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-500" size={16} />
             <input 
               type="text" 
               placeholder="Search repository, issues, commits..."
-              className="w-full pl-10 pr-4 py-2 bg-neutral-900/60 border border-neutral-800 rounded-full text-sm placeholder:text-neutral-500 focus:outline-none focus:border-white/50 transition-colors"
+              className="w-full pl-11 pr-4 py-2.5 bg-neutral-900/60 border border-neutral-800 rounded-full text-sm placeholder:text-neutral-500 focus:outline-none focus:border-white/50 transition-colors"
             />
           </div>
 
-          <div className="flex items-center gap-4">
-            <button className="p-2 text-neutral-400 hover:text-white rounded-full hover:bg-neutral-900 transition-colors relative">
+          <div className="flex items-center gap-6">
+            <button className="p-2.5 text-neutral-400 hover:text-white rounded-full hover:bg-neutral-900 transition-colors relative">
               <Bell size={18} />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-white rounded-full" />
+              <span className="absolute top-2 right-2 w-2 h-2 bg-white rounded-full" />
             </button>
             
-            <button className="flex items-center gap-2 px-4 py-2 bg-white text-black font-semibold text-sm rounded-full hover:bg-neutral-200 transition-colors shadow-md">
+            <button className="flex items-center gap-2 px-5 py-2.5 bg-white text-black font-semibold text-sm rounded-full hover:bg-neutral-200 transition-colors shadow-md">
               <Plus size={16} />
               Link Repository
             </button>
