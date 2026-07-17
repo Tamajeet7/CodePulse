@@ -13,21 +13,18 @@ import {
   Plus,
   GitBranch,
   ChevronLeft,
-  ChevronRight,
   Menu,
   ArrowRight,
   Sparkles,
   RefreshCw,
   Star,
   GitFork,
-  Info,
-  CheckCircle,
-  FileCode,
-  Flame
+  Info
 } from "lucide-react";
 import { useState } from "react";
 import { AnalyticsAPI } from "../services/analytics.api";
 import { FaGithub } from "react-icons/fa";
+import ReactMarkdown from "react-markdown";
 
 export default function Dashboard() {
   const { user, logout } = useAuthStore();
@@ -490,8 +487,10 @@ export default function Dashboard() {
                             </div>
 
                             {/* Result Display */}
-                            <div className="p-5 bg-neutral-950 border border-neutral-900 rounded-xl font-mono text-xs text-neutral-300 leading-relaxed overflow-x-auto whitespace-pre-wrap">
-                              {aiActiveSubTab === "review" ? aiReviewSummary : aiReleaseNotes}
+                            <div className="p-5 bg-neutral-950 border border-neutral-900 rounded-xl text-sm text-neutral-300 leading-relaxed overflow-x-auto markdown-body">
+                              <ReactMarkdown>
+                                {aiActiveSubTab === "review" ? aiReviewSummary : aiReleaseNotes}
+                              </ReactMarkdown>
                             </div>
                           </div>
                         ) : (
