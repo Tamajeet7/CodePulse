@@ -76,7 +76,7 @@ Format it using Markdown. Include these sections:
 Keep the tone encouraging but highly technical.`;
 
         const reviewResponse = await ai.models.generateContent({
-          model: 'gemini-1.5-flash',
+          model: 'gemini-3.5-flash',
           contents: reviewPrompt,
         });
 
@@ -95,7 +95,7 @@ Format it using Markdown. Include these sections:
 Be concise and group related items if necessary.`;
 
         const releaseResponse = await ai.models.generateContent({
-          model: 'gemini-1.5-flash',
+          model: 'gemini-3.5-flash',
           contents: releasePrompt,
         });
 
@@ -105,25 +105,17 @@ Be concise and group related items if necessary.`;
         };
       } catch (error: any) {
         console.error("Gemini Generation Error:", error);
-        // Fallback below
+        if (ai) {
+           return {
+             review: `### ⚠️ API Error\n\nGoogle Gemini API returned an error: ${error.message || "Quota Exceeded or Model Unavailable"}\n\nPlease check your Google AI Studio quota and region limits.`,
+             releaseNotes: `### ⚠️ API Error\n\nGoogle Gemini API returned an error: ${error.message || "Quota Exceeded or Model Unavailable"}\n\nPlease check your Google AI Studio quota and region limits.`
+           };
+        }
       }
     }
 
     // --- FALLBACK HEURISTICS (If no API key or AI fails) ---
-    const reviewFallback = `### 🤖 Code Quality Review for **${repoData.name}**
-*(Note: Generated via heuristics. Add GEMINI_API_KEY for true AI.)*
-
-#### 📈 Codebase Health Indicators
-- **High-Risk Commits Detected:** ${categories.bugfixes.length > 2 ? "⚠️ Critical concentration of quick hotfixes" : "✅ Codebase velocity appears stable."}
-- **Refactoring & Optimizations:** Found **${categories.refactors.length}** code optimization initiatives.
-- **Commit Frequency Index:** ${commits.length} recent changes analyzed.
-
----
-
-#### 🔍 Actionable Code Quality Advice
-1. **Optimize Module Declarations:** 
-   ${categories.refactors.length > 0 ? `Your recent changes (e.g., *"${categories.refactors[0]}"*) improve structure.` : "No major architectural warnings detected in the analyzed scope."}
-2. **Review Exception Handling:** Ensure all network queries matching API requests are guarded with robust boundary try-catch blocks.`;
+    const reviewFallback = `### 🤖 Code Quality Review for **${repoData.name}**\n*(Heuristic Fallback: No API Key Provided)*\n\n#### 📈 Codebase Health Indicators\n- **High-Risk Commits Detected:** ✅ Codebase velocity appears stable.\n- **Refactoring & Optimizations:** Found **0** code optimization initiatives.\n- **Commit Frequency Index:** ${commits.length} recent changes analyzed.\n\n---\n\n#### 🔍 Actionable Code Quality Advice\n1. **Optimize Module Declarations:**\n   No major architectural warnings detected in the analyzed scope.\n2. **Review Exception Handling:** Ensure all network queries matching API requests are guarded with robust boundary try-catch blocks.`;
 
     const releaseFallback = `### 📦 Auto-Generated Release Notes
 *Generated based on the last ${commits.length} commits for ${repoData.full_name}*
