@@ -76,7 +76,7 @@ Format it using Markdown. Include these sections:
 Keep the tone encouraging but highly technical.`;
 
         const reviewResponse = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-1.5-flash',
           contents: reviewPrompt,
         });
 
@@ -95,7 +95,7 @@ Format it using Markdown. Include these sections:
 Be concise and group related items if necessary.`;
 
         const releaseResponse = await ai.models.generateContent({
-          model: 'gemini-2.5-flash',
+          model: 'gemini-1.5-flash',
           contents: releasePrompt,
         });
 
