@@ -25,4 +25,7 @@ export const env = {
 
   SMTP_PASS:
     process.env.SMTP_PASS || "",
+
+  GEMINI_API_KEY:
+    process.env.GEMINI_API_KEY || "",
 } as const;
