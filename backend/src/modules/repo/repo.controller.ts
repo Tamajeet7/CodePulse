@@ -32,7 +32,7 @@ export class RepoController {
   static async setPrimary(req: Request, res: Response) {
     try {
       const userId = (req as any).user.id;
-      const repoId = req.params.id;
+      const repoId = req.params.id as string;
       const updated = await RepoService.setPrimary(userId, repoId);
       res.json({ success: true, data: updated });
     } catch (error: any) {
@@ -43,7 +43,7 @@ export class RepoController {
   static async deleteRepository(req: Request, res: Response) {
     try {
       const userId = (req as any).user.id;
-      const repoId = req.params.id;
+      const repoId = req.params.id as string;
       await RepoService.deleteRepository(userId, repoId);
       res.json({ success: true });
     } catch (error: any) {

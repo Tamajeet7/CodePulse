@@ -14,8 +14,8 @@ export const authenticate = async (
       return res.status(401).json({ success: false, message: "Unauthorized - No token provided" });
     }
 
-    const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, env.JWT_SECRET) as { userId: string };
+    const token = authHeader.split(" ")[1] as string;
+    const decoded = jwt.verify(token, env.JWT_SECRET) as unknown as { userId: string };
 
     const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
     if (!user) {

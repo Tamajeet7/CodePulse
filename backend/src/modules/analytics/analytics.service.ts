@@ -11,8 +11,9 @@ async function cachedGithubGet(url: string, bypassCache: boolean = false) {
     return { data: cached.data };
   }
   
-  const headers = env.GITHUB_TOKEN ? { Authorization: `Bearer ${env.GITHUB_TOKEN}` } : undefined;
-  const res = await axios.get(url, { headers });
+  const res = await axios.get(url, env.GITHUB_TOKEN
+    ? { headers: { Authorization: `Bearer ${env.GITHUB_TOKEN}` } as Record<string, string> }
+    : {});
   
   githubCache.set(url, { data: res.data, timestamp: Date.now() });
   return res;
