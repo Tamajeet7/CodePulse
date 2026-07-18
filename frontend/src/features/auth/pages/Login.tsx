@@ -48,9 +48,12 @@ export default function Login() {
         password,
       });
 
-      authenticate(response.token, response.user);
-
-      navigate("/dashboard");
+      if (response.requiresOtp) {
+        navigate(`/verify-otp?userId=${response.userId}`);
+      } else if (response.token && response.user) {
+        authenticate(response.token, response.user);
+        navigate("/dashboard");
+      }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(
@@ -63,6 +66,18 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleGithubLogin() {
+    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID || "Ov23liy59t2RC6sggXt1";
+    const redirectUri = `${window.location.origin}/auth/github/callback`;
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user:email`;
+  }
+
+  function handleGoogleLogin() {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "712808745234-g69bkl5hf41j36e9hqpmq6bbp8abif8o.apps.googleusercontent.com";
+    const redirectUri = `${window.location.origin}/auth/google/callback`;
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile`;
   }
 
   return (
@@ -136,7 +151,7 @@ export default function Login() {
           </div>
 
           <div className="mt-5">
-            <SocialLogin />
+            <SocialLogin onGithub={handleGithubLogin} onGoogle={handleGoogleLogin} />
           </div>
 
           <div className="mt-6 flex justify-center">

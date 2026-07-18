@@ -11,7 +11,14 @@ model User {
   id        String   @id @default(uuid())
   email     String   @unique
   name      String
-  password  String
+  password  String?
+  githubId  String?  @unique
+  githubAccessToken String?
+  googleId  String?  @unique
+  googleAccessToken String?
+  isVerified Boolean @default(false)
+  otpCode    String?
+  otpExpiry  DateTime?
   resetPasswordToken  String?
   resetPasswordExpiry DateTime?
   createdAt DateTime @default(now())

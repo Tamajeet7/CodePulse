@@ -19,4 +19,19 @@ router.post(
   AuthController.forgotPassword
 );
 
+router.post(
+  "/verify-otp",
+  AuthController.verifyOtp
+);
+
+router.post(
+  "/github",
+  AuthController.github
+);
+
+router.post(
+  "/google",
+  AuthController.google
+);
+
 export default router;

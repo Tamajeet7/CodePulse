@@ -10,6 +10,7 @@ import AuthHeader from "../components/AuthHeader";
 import AuthInput from "../components/AuthInput";
 import PasswordInput from "../components/PasswordInput";
 import AuthFooter from "../components/AuthFooter";
+import SocialLogin from "../components/SocialLogin";
 
 import LoadingButton from "../../../shared/components/LoadingButton";
 
@@ -54,9 +55,12 @@ export default function Register() {
         password,
       });
 
-      login(response.token, response.user);
-
-      navigate("/dashboard");
+      if (response.requiresOtp) {
+        navigate(`/verify-otp?userId=${response.userId}`);
+      } else if (response.token && response.user) {
+        login(response.token, response.user);
+        navigate("/dashboard");
+      }
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError(
@@ -69,6 +73,18 @@ export default function Register() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleGithubLogin() {
+    const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID || "Ov23liy59t2RC6sggXt1";
+    const redirectUri = `${window.location.origin}/auth/github/callback`;
+    window.location.href = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user:email`;
+  }
+
+  function handleGoogleLogin() {
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || "712808745234-g69bkl5hf41j36e9hqpmq6bbp8abif8o.apps.googleusercontent.com";
+    const redirectUri = `${window.location.origin}/auth/google/callback`;
+    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=email%20profile`;
   }
 
   return (
@@ -113,7 +129,11 @@ export default function Register() {
             onSubmit={handleSubmit}
             className="mt-14 flex flex-col"
           >
-            <div className="space-y-8">
+            <div className="mt-5">
+              <SocialLogin onGithub={handleGithubLogin} onGoogle={handleGoogleLogin} />
+            </div>
+
+            <div className="space-y-8 mt-8">
               <AuthInput
                 label="Full Name"
                 placeholder="John Doe"

@@ -57,4 +57,42 @@ export class AuthController {
       });
     }
   }
+  static async verifyOtp(req: Request, res: Response) {
+    try {
+      const { userId, code } = req.body;
+      const result = await AuthService.verifyOtp(userId, code);
+      res.json(result);
+    } catch (error: any) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
+
+  static async github(req: Request, res: Response) {
+    try {
+      const { code } = req.body;
+      const result = await AuthService.github(code);
+      res.json(result);
+    } catch (error: any) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
+
+  static async google(req: Request, res: Response) {
+    try {
+      const { code } = req.body;
+      const result = await AuthService.google(code);
+      res.json(result);
+    } catch (error: any) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    }
+  }
 }

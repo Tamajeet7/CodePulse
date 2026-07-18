@@ -5,7 +5,7 @@ import { env } from "../config/env";
 const transporter = nodemailer.createTransport({
   host: env.SMTP_HOST,
   port: Number(env.SMTP_PORT),
-  secure: false,
+  secure: Number(env.SMTP_PORT) === 465,
   auth: {
     user: env.SMTP_USER,
     pass: env.SMTP_PASS,
@@ -69,4 +69,23 @@ export async function sendPasswordResetEmail(
       </div>
     `,
   });
+}
+
+export async function sendOTPEmail(email: string, code: string) {
+  const mailOptions = {
+    from: env.SMTP_USER,
+    to: email,
+    subject: "CodePulse - Your Verification Code",
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <h2>Verify Your Email</h2>
+        <p>Your one-time verification code is:</p>
+        <h1 style="font-size: 32px; letter-spacing: 5px; color: #4F46E5; background: #F3F4F6; padding: 10px 20px; border-radius: 8px; display: inline-block;">${code}</h1>
+        <p>This code will expire in 10 minutes.</p>
+        <p>If you did not request this code, you can safely ignore this email.</p>
+      </div>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
 }

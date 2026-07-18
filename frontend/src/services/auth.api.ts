@@ -7,8 +7,10 @@ export interface User {
 }
 
 export interface AuthResponse {
-  token: string;
-  user: User;
+  token?: string;
+  user?: User;
+  requiresOtp?: boolean;
+  userId?: string;
 }
 
 export interface RegisterPayload {
@@ -39,6 +41,30 @@ export async function login(
   const { data } = await api.post<AuthResponse>(
     "/auth/login",
     payload
+  );
+
+  return data;
+}
+
+export async function verifyOtp(
+  userId: string,
+  code: string
+): Promise<AuthResponse> {
+  const { data } = await api.post<AuthResponse>(
+    "/auth/verify-otp",
+    { userId, code }
+  );
+
+  return data;
+}
+
+export async function oauthLogin(
+  provider: string,
+  code: string
+): Promise<AuthResponse> {
+  const { data } = await api.post<AuthResponse>(
+    `/auth/${provider}`,
+    { code }
   );
 
   return data;
