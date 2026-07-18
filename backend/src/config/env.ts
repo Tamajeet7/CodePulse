@@ -40,4 +40,7 @@ export const env = {
     
   GOOGLE_CLIENT_SECRET:
     process.env.GOOGLE_CLIENT_SECRET || "",
+    
+  GITHUB_TOKEN:
+    process.env.GITHUB_TOKEN || "",
 } as const;

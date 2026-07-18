@@ -23,4 +23,15 @@ model User {
   resetPasswordExpiry DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  repositories Repository[]
+}
+
+model Repository {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+  healthData Json?
+  user      User     @relation(fields: [userId], references: [id])
 }

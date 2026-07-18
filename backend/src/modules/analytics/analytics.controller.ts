@@ -21,6 +21,27 @@ export const AnalyticsController = {
   },
 
   /**
+   * GET /api/v1/analytics/dashboard?repo=owner/repo
+   * Fetches summarized dashboard data.
+   */
+  async getDashboardData(req: Request, res: Response) {
+    try {
+      const { repo, repoId, forceReanalyze } = req.query;
+      if (!repo || typeof repo !== 'string') {
+        throw new Error("Repository parameter is required");
+      }
+      
+      const shouldReanalyze = forceReanalyze === 'true';
+      const id = typeof repoId === 'string' ? repoId : undefined;
+
+      const result = await AnalyticsService.fetchDashboardData(repo, id, shouldReanalyze);
+      res.json({ success: true, data: result });
+    } catch (error: any) {
+      res.status(400).json({ success: false, message: error.message });
+    }
+  },
+
+  /**
    * POST /api/v1/analytics/analyze
    * Takes repoData and commits in body, generates AI review/notes.
    */
